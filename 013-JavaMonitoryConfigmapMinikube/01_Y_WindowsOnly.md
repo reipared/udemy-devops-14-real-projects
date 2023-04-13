@@ -14,7 +14,7 @@ Minikube needs Docker.
 
 ### 2. Start Minikube
 
-You can install the **Minikube** by following the instruction in the [Minikube official website](https://minikube.sigs.k8s.io/docs/start/).
+We can install the **Minikube** by following the instruction in the [Minikube official website](https://minikube.sigs.k8s.io/docs/start/).
 
 Once it is installed, start the minikube by running below command:
 
@@ -23,13 +23,13 @@ minikube start
 minikube status
 ```
 
-Once the Minikube starts, you can download the **kubectl** from [k8s official website](https://kubernetes.io/docs/tasks/tools/)
+Once the Minikube starts, we can download the **kubectl** from [k8s official website](https://kubernetes.io/docs/tasks/tools/)
 
 ```dos
 minikube kubectl
 ```
 
-Then, when you run the command `kubectl get node`, you should see below output:
+Then, when we run the command `kubectl get node`, we should see below output:
 
 ```dos
 NAME       STATUS   ROLES           AGE     VERSION
@@ -60,7 +60,7 @@ kubectl apply -f pod.yaml
 
 ### 6. Verification
 
-You can modify the contents of the ConfigMap and verify if the activity is captured in the log.
+We can modify the contents of the ConfigMap and verify if the activity is captured in the log.
 
 First **stream the log**
 
@@ -98,7 +98,7 @@ data:
 
 ![1679363245390](image/01_Y_WindowsOnly/1679363245390.png)
 
-Then wait for about 1 min and you should see below message in the log
+Then wait for about 1 min and we should see below message in the log
 
 ```dos
 kubectl logs -f configmap-demo-pod
