@@ -128,6 +128,20 @@ NAME       STATUS   ROLES           AGE     VERSION
 minikube   Ready    control-plane   4m37s   v1.25.3
 ```
 
+<!--
+```dos
+PS C:\devbox> kubectl get svc
+NAME         TYPE        CLUSTER-IP   EXTERNAL-IP   PORT(S)   AGE
+kubernetes   ClusterIP   10.96.0.1    <none>        443/TCP   104s
+PS C:\devbox> kubectl get ns
+NAME              STATUS   AGE
+default           Active   107s
+kube-node-lease   Active   108s
+kube-public       Active   108s
+kube-system       Active   109s
+```
+-->
+
 ### 5. Install Helm v3.x
 
 <!--
@@ -166,12 +180,23 @@ Create a `minio` namespace
 kubectl create ns minio
 ```
 
+<!--
 Output:
 
 ```dos
 PS C:\devbox> kubectl create ns minio
 namespace/minio created
+
+PS C:\devbox> kubectl get ns
+NAME                   STATUS   AGE
+default                Active   2m50s
+kube-node-lease        Active   2m51s
+kube-public            Active   2m51s
+kube-system            Active   2m52s
+kubernetes-dashboard   Active   22s
+minio                  Active   7s
 ```
+-->
 
 ### 4. Install Minio Helm Chart
 
@@ -260,6 +285,8 @@ we can now access MinIO server on http://localhost:9000. Follow the below steps 
 
 ### 5. Update the configure file
 
+Update the minio username and password in `vault-backup-values.yaml`
+
 ```bash
 MINIO_USERNAME=$(kubectl get secret -l app=minio -o=jsonpath="{.items[0].data.rootUser}"|base64 -d)
 echo "MINIO_USERNAME is $MINIO_USERNAME"
@@ -269,8 +296,21 @@ echo "MINIO_PASSWORD is $MINIO_PASSWORD"
 
 Check the minio service name and update the `MINIO_ADDR` env var in the `vault-backup-values.yaml` file.
 
-```dos
-$POD_NAME = kubectl get pods --namespace default -l "release=minio-1679439883" -o jsonpath="{.items[0].metadata.name}"
+```bash
+MINIO_SERVICE_NAME=$(kubectl get svc -n minio -o=jsonpath={.items[0].metadata.name})
+echo Minio service name is $MINIO_SERVICE_NAME
+```
+
+<!--
+```bash
+ /c/devbox (DevOps Labs: Real DevOps Projects) $ MINIO_SERVICE_NAME=$(kubectl get svc -n minio -o=jsonpath={.items[0].metadata.name})
+echo Minio service name is $MINIO_SERVICE_NAME
+Minio service name is minio-1681406939
+```
+-->
+
+```bash
+POD_NAME = kubectl get pods --namespace default -l "release=minio-1679439883" -o jsonpath="{.items[0].metadata.name}"
 echo "Minio POD name is $POD_NAME"
 kubectl port-forward $POD_NAME 9000 --namespace default
 
@@ -278,6 +318,7 @@ $MINIO_SERVICE_NAME = kubectl get svc -o jsonpath="{.items[1].metadata.name}"
 echo "Minio service name is $MINIO_SERVICE_NAME"
 ```
 
+<!--
 Output:
 
 ```dos
@@ -290,6 +331,7 @@ PS C:\devbox> kubectl port-forward $POD_NAME 9000 --namespace default
 Forwarding from 127.0.0.1:9000 -> 9000
 Forwarding from [::1]:9000 -> 9000
 ```
+-->
 
 <!--
 PS C:\devbox> kubectl get pods
@@ -313,59 +355,24 @@ Minio service name is minio-1679439883
 ```
 -->
 
-Update the minio username and password in `vault-backup-values.yaml`
-
-<!--
-```dos
-MINIO_USERNAME=$(kubectl get secret -l app=minio -o=jsonpath="{.items[0].data.rootUser}"|base64 -d)
-echo "MINIO_USERNAME is $MINIO_USERNAME"
-MINIO_PASSWORD=$(kubectl get secret -l app=minio -o=jsonpath="{.items[0].data.rootPassword}"|base64 -d)
-echo "MINIO_PASSWORD is $MINIO_PASSWORD"
-```
--->
-
-```dos
-$MINIO_USERNAME = kubectl get secret -l app=minio -o=jsonpath="{.items[0].data.rootUser}"
-
-echo "MINIO_USERNAME is $MINIO_USERNAME"
-
-$MINIO_PASSWORD = kubectl get secret -l app=minio -o=jsonpath="{.items[0].data.rootPassword}"
-
-echo "MINIO_PASSWORD is $MINIO_PASSWORD"
-```
-
-### 9. Create a Bucket in the Minio Console
+### 6. Create a Bucket in the Minio Console
 
 In order to access the Minio console, we need to port forward it to our local
 
 <!--
+```bash
 kubectl port-forward svc/$(kubectl get svc|grep console|awk '{print $1}') 9001:9001
--->
 
-```dos
-kubectl get svc | findstr console
-kubectl port-forward svc/minio-1679439883-console 9001:9001
-
-
-kubectl port-forward svc/minio-1679442603-console 9001:9001
+kubectl port-forward $(kubectl get svc -n minio | grep console | awk '{print $1}') 9001:9001
 ```
-
-<!--
-PS C:\devbox> kubectl get svc | findstr console
-minio-1679439883-console   ClusterIP   10.107.132.79   <none>        9001/TCP   6m56s
-PS C:\devbox> kubectl port-forward svc/minio-1679439883-console 9001:9001
-Forwarding from 127.0.0.1:9001 -> 9001
-Forwarding from [::1]:9001 -> 9001
-
 -->
 
-Output:
-
 ```dos
-PS C:\devbox> kubectl get svc | findstr console
-minio-1679172101-console   ClusterIP   10.107.12.117   <none>        9001/TCP   24m
+ /c/devbox (DevOps Labs: Real DevOps Projects) $ kubectl get pod -n minio
+NAME                                READY   STATUS    RESTARTS   AGE
+minio-1681406939-568496f55d-nbg97   1/1     Running   0          12m
 
-PS C:\devbox> kubectl port-forward svc/minio-1679172101-console 9001:9001
+ /c/devbox (DevOps Labs: Real DevOps Projects) $ kubectl port-forward -n minio minio-1681406939-568496f55d-nbg97 9001:9001
 Forwarding from 127.0.0.1:9001 -> 9001
 Forwarding from [::1]:9001 -> 9001
 ```
@@ -470,4 +477,7 @@ Login to the Minio console [http://localhost:9001](http://localhost:9001) and go
 Reference
 
 [Minio Helm Deployment](https://github.com/minio/minio/tree/master/helm/minio)
+
+git clone https://github.com/briansu2004/udemy-devops-14-real-projects.git
+cd udemy-devops-14-real-projects/012-CronjobVaultBackupHelmMinikube
 -->
