@@ -1,4 +1,4 @@
-# Lab 013: Develop a Java Application in K8s for Monitoring ConfigMap Modifications and Content Changes
+# Lab 013: Develop a Java Application in Kubernetes for Monitoring ConfigMap Modifications and Content Changes
 
 Windows Only
 
