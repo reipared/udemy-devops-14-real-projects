@@ -103,6 +103,7 @@ Once the Minikube starts, we can download the kubectl
 minikube kubectl
 ```
 
+<!--
 Output:
 
 ```dos
@@ -118,43 +119,46 @@ Basic Commands (Beginner):
   set             Set specific features on objects
 ...
 ```
+-->
 
-Then, when we run the command `kubectl get node`, we should see below output:
+Then, when we run the command `kubectl get node`, we should see something similar to the below ouput:
 
 ```dos
 NAME       STATUS   ROLES           AGE     VERSION
 minikube   Ready    control-plane   4m37s   v1.25.3
 ```
 
-## Steps
+### 5. Install Helm v3.x
 
-### 3. Enable Minikube Dashboard (Optional)
-
-we can also enable our **Minikube dashboard** by running below command:
-
-```dos
-minikube dashboard
-```
-
-we should see a Kuberentes Dashboard page pop out in our browser immediately. we can explore all Minikube resources in this UI website.
-
-### 4. Install Helm v3.x
-
+<!--
 Follow the instruction here [Helm v3.x](https://helm.sh/docs/intro/install/)
+-->
 
 ```dos
 choco install kubernetes-helm
 ```
 
-### 5. Add Helm Repo
+## Steps
 
-Once Helm is set up properly, **add** the **repo** as follows:
+### 1. Enable Minikube Dashboard (Optional)
+
+We can also enable our **Minikube dashboard** by running below command:
+
+```dos
+minikube dashboard
+```
+
+We should see a Kuberentes Dashboard page pop out in our browser immediately.
+
+We can explore all Minikube resources in this UI website.
+
+### 2. Add Helm Repo
 
 ```dos
 helm repo add minio https://charts.min.io/
 ```
 
-### 6. Create a namespace
+### 3. Create a namespace
 
 Create a `minio` namespace
 
@@ -169,7 +173,7 @@ PS C:\devbox> kubectl create ns minio
 namespace/minio created
 ```
 
-### 7. Install Minio Helm Chart
+### 4. Install Minio Helm Chart
 
 Since we are using Minikube cluster which has only 1 node, we just deploy the Minio in a test mode.
 
@@ -177,12 +181,13 @@ Since we are using Minikube cluster which has only 1 node, we just deploy the Mi
 helm install --set resources.requests.memory=512Mi --set replicas=1 --set mode=standalone --set rootUser=rootuser,rootPassword=Test1234! --generate-name minio/minio
 ```
 
-or
+==>
 
 ```dos
-helm install --set resources.requests.memory=512Mi --set replicas=1 --set mode=standalone --set rootUser=rootuser,rootPassword=Test1234 --generate-name minio/minio
+helm install --set resources.requests.memory=512Mi --set replicas=1 --set mode=standalone --set rootUser=rootuser,rootPassword=Test1234! --generate-name --namespace=minio minio/minio
 ```
 
+<!--
 Output:
 
 ```dos
@@ -213,6 +218,7 @@ we can now access MinIO server on http://localhost:9000. Follow the below steps 
 
   3. mc ls minio-1679172101-local
 ```
+-->
 
 <!--
 PS C:\devbox> helm list
@@ -252,9 +258,16 @@ we can now access MinIO server on http://localhost:9000. Follow the below steps 
   3. mc ls minio-1679439883-local
 -->
 
-### 8. Update the configure file
+### 5. Update the configure file
 
-Check the minio service name and update in the `vault-backup-values.yaml` in `MINIO_ADDR` env var
+```bash
+MINIO_USERNAME=$(kubectl get secret -l app=minio -o=jsonpath="{.items[0].data.rootUser}"|base64 -d)
+echo "MINIO_USERNAME is $MINIO_USERNAME"
+MINIO_PASSWORD=$(kubectl get secret -l app=minio -o=jsonpath="{.items[0].data.rootPassword}"|base64 -d)
+echo "MINIO_PASSWORD is $MINIO_PASSWORD"
+```
+
+Check the minio service name and update the `MINIO_ADDR` env var in the `vault-backup-values.yaml` file.
 
 ```dos
 $POD_NAME = kubectl get pods --namespace default -l "release=minio-1679439883" -o jsonpath="{.items[0].metadata.name}"
