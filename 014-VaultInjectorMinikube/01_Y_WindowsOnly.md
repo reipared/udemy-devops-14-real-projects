@@ -41,8 +41,8 @@ helm repo update
 **Install** the latest release of the Vault Helm chart with below command:
 
 ```dos
-git clone https://github.com/briansu2004/udemy-devops-real-projects.git
-cd udemy-devops-real-projects\014-VaultInjectorMinikube
+git clone https://github.com/briansu2004/udemy-devops-14-real-projects.git
+cd udemy-devops-14-real-projects\014-VaultInjectorMinikube
 helm install vault hashicorp/vault -f values_windows.yaml
 ```
 
@@ -195,7 +195,7 @@ Result:
 
 <!--
 ```dos
-C:\devbox\udemy-devops-real-projects\014-VaultInjectorMinikube>kubectl get pod
+C:\devbox\udemy-devops-14-real-projects\014-VaultInjectorMinikube>kubectl get pod
 NAME                                    READY   STATUS    RESTARTS   AGE
 app-deployment-575c8d94cf-5xfr7         2/2     Running   0          5m10s
 app-deployment-575c8d94cf-fg5nf         2/2     Running   0          5m16s
@@ -203,21 +203,21 @@ app-deployment-575c8d94cf-x7cgx         2/2     Running   0          5m53s
 vault-0                                 1/1     Running   0          20m
 vault-agent-injector-589c565bdf-nw5mk   1/1     Running   0          20m
 
-C:\devbox\udemy-devops-real-projects\014-VaultInjectorMinikube>kubectl exec app-deployment-575c8d94cf-5xfr7 -- cat /vault/secrets/database-config.txt
+C:\devbox\udemy-devops-14-real-projects\014-VaultInjectorMinikube>kubectl exec app-deployment-575c8d94cf-5xfr7 -- cat /vault/secrets/database-config.txt
 Defaulted container "nginx" out of: nginx, vault-agent, vault-agent-init (init)
 
         export password=changeme
 
         export username=root
 
-C:\devbox\udemy-devops-real-projects\014-VaultInjectorMinikube>kubectl exec app-deployment-575c8d94cf-fg5nf -- cat /vault/secrets/database-config.txt 
+C:\devbox\udemy-devops-14-real-projects\014-VaultInjectorMinikube>kubectl exec app-deployment-575c8d94cf-fg5nf -- cat /vault/secrets/database-config.txt 
 Defaulted container "nginx" out of: nginx, vault-agent, vault-agent-init (init)
 
         export password=changeme
 
         export username=root    
 
-C:\devbox\udemy-devops-real-projects\014-VaultInjectorMinikube>kubectl exec app-deployment-575c8d94cf-x7cgx -- cat /vault/secrets/database-config.txt 
+C:\devbox\udemy-devops-14-real-projects\014-VaultInjectorMinikube>kubectl exec app-deployment-575c8d94cf-x7cgx -- cat /vault/secrets/database-config.txt 
 Defaulted container "nginx" out of: nginx, vault-agent, vault-agent-init (init)
 
         export password=changeme

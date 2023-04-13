@@ -1,10 +1,10 @@
-# Project Name: Develop a Java Application in K8s for Monitoring ConfigMap Modifications and Content Changes
+# Lab 013: Develop a Java Application in K8s for Monitoring ConfigMap Modifications and Content Changes
 
 Windows Only
 
-## Project Goal
+## Lab Goal
 
-In this lab, you will learn how to develop a Java application that interacts with the Kubernetes API to **monitor changes** to a file that is mounted by a **ConfigMap**.
+In this lab, we will learn how to develop a **Java application** that interacts with the Kubernetes API to **monitor changes** to a file that is mounted by a **ConfigMap**.
 
 ## Steps
 
@@ -41,8 +41,8 @@ minikube   Ready    control-plane   2d4h   v1.26.1
 Run below command to **build** the image:
 
 ```dos
-git clone https://github.com/briansu2004/udemy-devops-real-projects.git
-cd udemy-devops-real-projects\013-JavaMonitoryConfigmapMinikube
+git clone https://github.com/briansu2004/udemy-devops-14-real-projects.git
+cd udemy-devops-14-real-projects\013-JavaMonitoryConfigmapMinikube
 docker build -t java-monitor-file:v2.0 .
 ```
 
@@ -76,6 +76,8 @@ kubectl edit cm game-demo
 
 **Update** anything within below **data** section
 
+e.g.
+
 From
 
 ```dos
@@ -99,9 +101,9 @@ data:
 Then wait for about 1 min and you should see below message in the log
 
 ```dos
-$ kubectl logs -f configmap-demo-pod
-
-Content has changed!
+kubectl logs -f configmap-demo-pod
 ```
+
+The content been has changed!
 
 ![1679363428176](image/01_Y_WindowsOnly/1679363428176.png)

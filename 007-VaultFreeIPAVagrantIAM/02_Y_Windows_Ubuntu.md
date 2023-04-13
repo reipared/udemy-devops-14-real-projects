@@ -65,8 +65,8 @@ nameserver 8.8.4.4
 ### 1. Docker compose
 
 ```bash
-git clone https://github.com/briansu2004/udemy-devops-real-projects.git
-cd udemy-devops-real-projects/007-VaultFreeIPAVagrantIAM
+git clone https://github.com/briansu2004/udemy-devops-14-real-projects.git
+cd udemy-devops-14-real-projects/007-VaultFreeIPAVagrantIAM
 docker compose up
 ```
 

@@ -105,14 +105,14 @@ metadata:
 Apply the manifest `components.yaml`:
 
 ```dos
-git clone https://github.com/briansu2004/udemy-devops-real-projects.git
-cd udemy-devops-real-projects\010-MinikubeGrafanaPrometheusMultipassMonitoring
+git clone https://github.com/briansu2004/udemy-devops-14-real-projects.git
+cd udemy-devops-14-real-projects\010-MinikubeGrafanaPrometheusMultipassMonitoring
 kubectl -n kube-system apply -f components.yaml
 ```
 
 <!--
 ```dos
-C:\devbox\udemy-devops-real-projects\010-MinikubeGrafanaPrometheusMultipassMonitoring>kubectl -n kube-system apply -f components.yaml
+C:\devbox\udemy-devops-14-real-projects\010-MinikubeGrafanaPrometheusMultipassMonitoring>kubectl -n kube-system apply -f components.yaml
 serviceaccount/metrics-server created
 clusterrole.rbac.authorization.k8s.io/system:aggregated-metrics-reader created
 clusterrole.rbac.authorization.k8s.io/system:metrics-server created
@@ -127,7 +127,7 @@ apiservice.apiregistration.k8s.io/v1beta1.metrics.k8s.io created
 
 <!--
 ```dos
-C:\devbox\udemy-devops-real-projects\010-MinikubeGrafanaPrometheusMultipassMonitoring>kubectl get pods --all-namespaces
+C:\devbox\udemy-devops-14-real-projects\010-MinikubeGrafanaPrometheusMultipassMonitoring>kubectl get pods --all-namespaces
 NAMESPACE              NAME                                        READY   STATUS    RESTARTS      AGE
 kube-system            coredns-787d4945fb-ht7sf                    1/1     Running   1 (18m ago)   10h
 kube-system            etcd-minikube                               1/1     Running   1 (18m ago)   10h
@@ -177,7 +177,7 @@ helm install prometheus-grafana prometheus-community/kube-prometheus-stack -f va
 
 <!--
 ```dos
-C:\devbox\udemy-devops-real-projects\010-MinikubeGrafanaPrometheusMultipassMonitoring>helm install prometheus-grafana prometheus-community/kube-prometheus-stack -f values.yaml
+C:\devbox\udemy-devops-14-real-projects\010-MinikubeGrafanaPrometheusMultipassMonitoring>helm install prometheus-grafana prometheus-community/kube-prometheus-stack -f values.yaml
 NAME: prometheus-grafana
 LAST DEPLOYED: Mon Apr 10 21:04:27 2023
 NAMESPACE: default
