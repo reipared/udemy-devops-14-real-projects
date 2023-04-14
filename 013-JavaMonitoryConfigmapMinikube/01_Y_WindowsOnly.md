@@ -42,7 +42,7 @@ Run below command to **build** the image:
 
 ```dos
 git clone https://github.com/briansu2004/udemy-devops-14-real-projects.git
-cd udemy-devops-14-real-projects\013-JavaMonitoryConfigmapMinikube
+cd udemy-devops-14-real-projects/013-JavaMonitoryConfigmapMinikube
 
 eval $(minikube docker-env)
 
