@@ -91,10 +91,10 @@ echo Minio service name is $MINIO_SERVICE_NAME
 
 kubectl port-forward svc/vault 8200:8200
 
-
-kubectl -n vault-test create configmap upload --from-file=upload.sh
 kubectl -n vault-test apply -f upload-configmap.yaml
 
+
+kubectl -n vault-test create configmap upload --from-file=upload.sh
 helm -n vault-test upgrade --install vault-backup helm-chart -f vault-backup-values.yaml
 kubectl -n vault-test create job vault-backup-test --from=cronjob/vault-backup-cronjob
 
