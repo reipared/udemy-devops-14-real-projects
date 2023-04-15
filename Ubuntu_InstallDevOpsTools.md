@@ -87,6 +87,10 @@ sudo install minikube-linux-amd64 /usr/local/bin/minikube
 ```
 -->
 
+<!--
+minikube start --driver=docker --kubernetes-version=v1.26.1
+-->
+
 ```bash
 cat > install_docker_minikube.sh <<EOF
 
@@ -108,7 +112,7 @@ echo y | sudo apt-get install docker-ce docker-ce-cli containerd.io docker-compo
 sudo chmod 666 /var/run/docker.sock
 curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
 sudo install minikube-linux-amd64 /usr/local/bin/minikube
-minikube start
+minikube start --driver=docker --kubernetes-version=v1.26.3
 EOF
 
 chmod 777 install_docker_minikube.sh
@@ -132,6 +136,27 @@ Download kubectl
 ```bash
 minikube kubectl
 ```
+
+
+<!--
+```bash
+sudo apt-get update && sudo apt-get install -y apt-transport-https gnupg2 curl
+curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
+echo "deb https://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee /etc/apt/sources.list.d/kubernetes.list
+sudo apt-get update
+sudo apt-get install -y kubectl
+```
+
+```bash
+sudo apt-get update
+sudo apt-get install -y virtualbox
+```
+
+```bash
+curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
+sudo install minikube-linux-amd64 /usr/local/bin/minikube
+```
+-->
 
 ## Install kubectl in Ubuntu
 
