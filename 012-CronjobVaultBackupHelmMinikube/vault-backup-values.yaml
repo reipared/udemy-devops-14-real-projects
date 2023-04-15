@@ -1,7 +1,7 @@
 # helm -n vault upgrade --install vault-backup helm-chart -f values.yaml
 cronjob:
   schedule: 0 2 * * 6
-  imageUpload: minio/mc:RELEASE.2023-01-28T20-29-38Z
+  imageUpload: minio/mc:RELEASE.2023-02-10T18-48-39Z
   imageVault: hashicorp/vault:1.9.2
   imageConsul: hashicorp/consul:1.12.0
 env:
@@ -9,11 +9,11 @@ env:
   VAULT_CACERT: '/var/run/secrets/kubernetes.io/serviceaccount/ca.crt'
   #CONSUL_HTTP_ADDR: 'http://consul-server.vault-test:8500'
   #CONSUL_CACERT: '/var/run/secrets/kubernetes.io/serviceaccount/ca.crt'
-  VAULT_APPROLE_ROLE_ID: 'a813c0c9-b485-c546-6764-ce34603cd8d6'
-  VAULT_APPROLE_SECRET_ID: 'a131ca8c-b72c-bd87-ca65-e2e0ed689ed7'
+  VAULT_APPROLE_ROLE_ID: 'cc96ed8c-e5e4-a055-bee4-5a6c59840e73'
+  VAULT_APPROLE_SECRET_ID: '559c94a4-4374-7fc1-c6cf-3b22912db51d'
   MOUNT_POINT: 'kv-v2'
   SECRET_PATH: 'devops-secret'
   BUCKET_NAME: 'test'
   MINIO_USERNAME: 'rootuser'
   MINIO_PASSWORD: 'Test1234!'
-  MINIO_ADDR: 'minio-1681518664'
+  MINIO_ADDR: 'minio-1681526507'

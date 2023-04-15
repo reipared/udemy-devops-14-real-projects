@@ -86,21 +86,11 @@ helm install --set resources.requests.memory=512Mi --set replicas=1 --set mode=s
 <!--
 helm search repo minio/minio -l
 
-minio/minio     5.0.8           RELEASE.2023-04-13T03-08-07Z    Multi-Cloud Object Storage
-minio/minio     5.0.7           RELEASE.2023-02-10T18-48-39Z    Multi-Cloud Object Storage
-minio/minio     5.0.6           RELEASE.2023-02-10T18-48-39Z    Multi-Cloud Object Storage
-minio/minio     5.0.5           RELEASE.2023-01-31T02-24-19Z    Multi-Cloud Object Storage
-minio/minio     5.0.4           RELEASE.2022-12-12T19-27-27Z    Multi-Cloud Object Storage
-minio/minio     5.0.3           RELEASE.2022-12-12T19-27-27Z    Multi-Cloud Object Storage
-minio/minio     5.0.2           RELEASE.2022-12-12T19-27-27Z    Multi-Cloud Object Storage
-minio/minio     5.0.1           RELEASE.2022-11-11T03-44-20Z    Multi-Cloud Object Storage
-minio/minio     5.0.0           RELEASE.2022-10-24T18-35-07Z    Multi-Cloud Object Storage
-
 helm install --set resources.requests.memory=512Mi --set replicas=1 --set mode=standalone --set rootUser=rootuser,rootPassword=Test1234! --generate-name --namespace=minio minio/minio --version 5.0.0
 -->
 
 ```dos
-helm install --set resources.requests.memory=512Mi --set replicas=1 --set mode=standalone --set rootUser=rootuser,rootPassword=Test1234! --generate-name --namespace=minio minio/minio --version 5.0.7
+helm install --set resources.requests.memory=512Mi --set replicas=1 --set mode=standalone --set rootUser=rootuser,rootPassword=Test1234! --generate-name --namespace=minio minio/minio --version 5.0.0
 ```
 
 ### 5. Update the configure file
@@ -145,9 +135,7 @@ Open our browser and go to this URL [http://localhost:9001](http://localhost:900
 
 Go to *Buckets* section in the left lane and click *Create Bucket* with a name `test`, with all other setting as default.
 
-![1681526715471](image/01_Y_WindowsOnly/1681526715471.png)
-
-![1681526736142](image/01_Y_WindowsOnly/1681526736142.png)
+![1681518875163](image/01_Y_WindowsOnly/1681518875163.png)
 
 <!--
 ![minio-bucket.png](images/minio-bucket.png)
@@ -181,8 +169,6 @@ Run below commands to apply the helm chart:
 helm repo add hashicorp https://helm.releases.hashicorp.com
 
 kubectl create ns vault-test
-
-kubectl config set-context --current --namespace=vault-test
 
 helm -n vault-test install vault hashicorp/vault -f vault-values.yaml
 ```
@@ -289,19 +275,4 @@ SECRET_ID is a131ca8c-b72c-bd87-ca65-e2e0ed689ed7
 kubectl -n vault-test port-forward svc/vault 8200:8200
 
 http://localhost:8200
--->
-
-<!--
-Minio service name is minio-1681526507
-
-Unseal Key 1: LnnYzJ1CfL528g0x8uGh7iP7kXNIcV/4i8SMxFwR/znN
-Unseal Key 2: A3KtnJ+82H6yKWWN6FRe2mUWkQBE39DquAOsFBYIXTsa
-Unseal Key 3: 92fAm1M2TcuQf1w3lwXiaP/Do9j7fj1cK//jLs3Hlz8v
-Unseal Key 4: +eKioNOpB5Nqc4E6P4/vVXnnIZ3EMGtY0ODCektEfIGb
-Unseal Key 5: wmWWXGtmrDEcfmQYW+62AIfDXe3pEgxW4kE+Qnvdz9Lv
-
-Initial Root Token: hvs.yHwL13u8pCy7oxIfrKvTyNtM
-
-Role_ID is cc96ed8c-e5e4-a055-bee4-5a6c59840e73
-SECRET_ID is 559c94a4-4374-7fc1-c6cf-3b22912db51d
 -->
