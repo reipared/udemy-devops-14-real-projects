@@ -1,7 +1,7 @@
 # helm -n vault upgrade --install vault-backup helm-chart -f values.yaml
 cronjob:
   schedule: 0 2 * * 6
-  imageUpload: minio/mc:RELEASE.2023-02-10T18-48-39Z
+  imageUpload: minio/mc:RELEASE.2023-03-23T20-03-04Z
   imageVault: hashicorp/vault:1.9.2
   imageConsul: hashicorp/consul:1.12.0
 env:
