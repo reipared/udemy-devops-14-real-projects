@@ -237,12 +237,13 @@ helm -n vault-test upgrade --install vault-backup helm-chart -f vault-backup-val
 kubectl -n vault-test create job vault-backup-test --from=cronjob/vault-backup-cronjob
 ```
 
-### 10. Verification
+### 9. Verification
 
 Port forward Minio console to our local host:
 
 ```dos
 MINIO_CONSOLE_ADDR=$(kubectl -n minio get svc|grep console|awk '{print $1}')
+
 kubectl -n minio port-forward svc/$MINIO_CONSOLE_ADDR 9001:9001
 ```
 
@@ -256,4 +257,14 @@ Reference
 
 git clone https://github.com/briansu2004/udemy-devops-14-real-projects.git
 cd udemy-devops-14-real-projects/012-CronjobVaultBackupHelmMinikube
+-->
+
+<!--
+Initial Root Token: hvs.5vozFxJg1ZTLv39r8Y8LnlBd
+
+/tmp $ echo Role_ID is $ROLE_ID
+Role_ID is a813c0c9-b485-c546-6764-ce34603cd8d6
+/tmp $
+/tmp $ echo SECRET_ID is $SECRET_ID
+SECRET_ID is a131ca8c-b72c-bd87-ca65-e2e0ed689ed7
 -->
