@@ -15,3 +15,24 @@ spec:
       ports:
         - protocol: TCP
           port: 8200
+
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-vault-access
+  namespace: minio
+spec:
+  podSelector:
+    matchLabels:
+      app: minio
+  ingress:
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              name: vault
+      ports:
+        - protocol: TCP
+          port: 9000
+        - protocol: TCP
+          port: 9001
