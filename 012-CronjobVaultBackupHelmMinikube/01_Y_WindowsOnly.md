@@ -257,16 +257,21 @@ kubectl -n vault-test create job vault-backup-test --from=cronjob/vault-backup-c
 
 ### 10. Verification
 
+<!--
 Port forward Minio console to our local host:
 
 ```dos
 MINIO_CONSOLE_ADDR=$(kubectl -n minio get svc|grep console|awk '{print $1}')
 
-kubectl -n minio port-forward svc/$MINIO_CONSOLE_ADDR 9001:9001
+echo $MINIO_CONSOLE_ADDR
+
+kubectl -n minio port-forward svc/$MINIO_CONSOLE_ADDR 9901:9001
 ```
 
 Login to the Minio console [http://localhost:9001](http://localhost:9001) and go to **Object Browser** section in the left navigation lane. Click **Test** bucket and we should see the backup files list there.
+
 ![minio-console.png](images/minio-console.png)
+-->
 
 <!--
 Reference
@@ -305,6 +310,19 @@ Initial Root Token: hvs.yHwL13u8pCy7oxIfrKvTyNtM
 Role_ID is cc96ed8c-e5e4-a055-bee4-5a6c59840e73
 SECRET_ID is 559c94a4-4374-7fc1-c6cf-3b22912db51d
 
+helm -n vault-test uninstall vault-backup
 
+kubectl describe job vault-backup-test
 
+kubectl describe pod vault-backup-test-c6blm
+
+kubectl describe configmap upload
+
+kubectl delete job vault-backup-test
+
+helm uninstall vault-backup 
+
+kubectl delete configmap upload
+
+kubectl create job --from=cronjob/vault-backup-cronjob manual-backup-$(date +'%s') 
 -->

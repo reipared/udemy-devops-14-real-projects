@@ -1,5 +1,8 @@
 #/bin/sh
 
+# create /backup folder and put files there
+
+
 # Check if the backup files exist or empty
 ls -trl /backup
 #CONSUL_BACKUP_FILE=/backup/$(ls /backup|grep consul)
