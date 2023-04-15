@@ -98,10 +98,13 @@ helm -n vault-test upgrade --install vault-backup helm-chart -f vault-backup-val
 
 kubectl -n vault-test create job vault-backup-test --from=cronjob/vault-backup-cronjob
 
+
+kubectl delete cronjob vault-backup-cronjob
+
 kubectl delete job vault-backup-test
 helm uninstall vault-backup
 kubectl delete configmap upload
 
-
-
+kubectl get cronjob
+kubectl describe cronjob vault-backup-cronjob 
 -->
