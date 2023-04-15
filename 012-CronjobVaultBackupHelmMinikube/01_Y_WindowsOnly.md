@@ -267,4 +267,8 @@ Role_ID is a813c0c9-b485-c546-6764-ce34603cd8d6
 /tmp $
 /tmp $ echo SECRET_ID is $SECRET_ID
 SECRET_ID is a131ca8c-b72c-bd87-ca65-e2e0ed689ed7
+
+kubectl -n vault-test port-forward svc/vault 8200:8200
+
+http://localhost:8200
 -->
