@@ -1,0 +1,17 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-vault-access
+  namespace: vault-test
+spec:
+  podSelector:
+    matchLabels:
+      app: vault
+  ingress:
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              name: minio
+      ports:
+        - protocol: TCP
+          port: 8200

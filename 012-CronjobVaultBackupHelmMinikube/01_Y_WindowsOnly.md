@@ -227,7 +227,11 @@ export SECRET_ID="$(vault write -f -field=secret_id auth/approle/role/first-role
 echo SECRET_ID is $SECRET_ID
 ```
 
-### 8. Deploy Vault Backup Helm Chart
+### 8. Allow minio namespace to access valut-test namespace
+
+`kubectl apply -f network-policy.yaml`
+
+### 9. Deploy Vault Backup Helm Chart
 
 ```dos
 kubectl -n vault-test create configmap upload --from-file=upload.sh
@@ -237,7 +241,7 @@ helm -n vault-test upgrade --install vault-backup helm-chart -f vault-backup-val
 kubectl -n vault-test create job vault-backup-test --from=cronjob/vault-backup-cronjob
 ```
 
-### 9. Verification
+### 10. Verification
 
 Port forward Minio console to our local host:
 
