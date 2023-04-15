@@ -64,7 +64,6 @@ You can now access MinIO server on http://localhost:9000. Follow the below steps
 
   3. mc ls minio-1681595552-local
 
-
 Unseal Key 1: gnKSjtM479Wkn8TaOrsy8Pxr/UXkhY8kuLp2j1/7U7bt
 Unseal Key 2: lcb4semOF1XnDIcORl/pdE1hQsBMIQ6tEhA5OWI69Ng7
 Unseal Key 3: qKH/AyhxmKiAD7QYakrZgY4ogst0EJcrGeKFEKhQmM6N
@@ -86,4 +85,23 @@ Role_ID is b4eb088f-5350-8225-282e-c1a235c161fc
 /tmp $ export SECRET_ID="$(vault write -f -field=secret_id auth/approle/role/first-role/secret-id)"
 /tmp $ echo SECRET_ID is $SECRET_ID
 SECRET_ID is 7dbd1f89-f1f5-59b0-dba9-49ffc3f05c19
+
+MINIO_SERVICE_NAME=$(kubectl get svc -n minio -o=jsonpath={.items[0].metadata.name})
+echo Minio service name is $MINIO_SERVICE_NAME
+
+kubectl port-forward svc/vault 8200:8200
+
+
+kubectl -n vault-test create configmap upload --from-file=upload.sh
+
+helm -n vault-test upgrade --install vault-backup helm-chart -f vault-backup-values.yaml
+
+kubectl -n vault-test create job vault-backup-test --from=cronjob/vault-backup-cronjob
+
+kubectl delete job vault-backup-test
+helm uninstall vault-backup
+kubectl delete configmap upload
+
+
+
 -->

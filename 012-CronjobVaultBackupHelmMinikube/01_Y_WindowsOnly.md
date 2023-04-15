@@ -260,6 +260,11 @@ helm -n vault-test upgrade --install vault-backup helm-chart -f vault-backup-val
 kubectl -n vault-test create job vault-backup-test --from=cronjob/vault-backup-cronjob
 ```
 
+<!--
+helm list
+helm delete vault-backup
+-->
+
 ### 10. Verification
 
 <!--
