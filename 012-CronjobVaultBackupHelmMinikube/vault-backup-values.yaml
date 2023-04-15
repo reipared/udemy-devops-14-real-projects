@@ -8,8 +8,8 @@ cronjob:
   imageVault: hashicorp/vault:1.9.2
   imageConsul: hashicorp/consul:1.12.0
 env:
-  # VAULT_ADDR: 'http://vault.vault-test:8200'
-  VAULT_ADDR: 'http://127.0.0.1:8200'
+  VAULT_ADDR: 'http://vault.vault-test:8200'
+  # VAULT_ADDR: 'http://127.0.0.1:8200'
   VAULT_CACERT: '/var/run/secrets/kubernetes.io/serviceaccount/ca.crt'
   #CONSUL_HTTP_ADDR: 'http://consul-server.vault-test:8500'
   #CONSUL_CACERT: '/var/run/secrets/kubernetes.io/serviceaccount/ca.crt'
