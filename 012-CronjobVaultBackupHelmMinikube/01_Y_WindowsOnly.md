@@ -205,89 +205,32 @@ Update the `VAULT_APPROLE_ROLE_ID` and `VAULT_APPROLE_SECRET_ID` variables in th
 `kubectl apply -f network-policy.yaml` 
 -->
 
-### 9. Deploy Vault Backup Helm Chart
+### 8. Deploy the configmap
 
 ```dos
 kubectl -n vault-test create configmap upload --from-file=upload.sh
+```
 
+<!--
+### 9. Verify the configmap and fix the issues if needed
+
+May have to manually update `\r\n` to `\n'.
+
+![1681673458802](image/01_Y_WindowsOnly/1681673458802.png)
+-->
+
+### 9. Deploy Vault Backup Helm Chart
+
+```dos
 helm -n vault-test upgrade --install vault-backup helm-chart -f vault-backup-values.yaml
 
 kubectl -n vault-test create job vault-backup-test --from=cronjob/vault-backup-cronjob
 ```
 
-<!--
-helm list
-helm delete vault-backup
--->
-
 ### 10. Verification
 
-<!--
-Port forward Minio console to our local host:
+<http://localhost:9001/browser/test>
 
-```dos
-MINIO_CONSOLE_ADDR=$(kubectl -n minio get svc|grep console|awk '{print $1}')
+![1681673723473](image/01_Y_WindowsOnly/1681673723473.png)
 
-echo $MINIO_CONSOLE_ADDR
-
-kubectl -n minio port-forward svc/$MINIO_CONSOLE_ADDR 9901:9001
-```
-
-Login to the Minio console [http://localhost:9001](http://localhost:9001) and go to **Object Browser** section in the left navigation lane. Click **Test** bucket and we should see the backup files list there.
-
-![minio-console.png](images/minio-console.png)
--->
-
-<!--
-Reference
-
-[Minio Helm Deployment](https://github.com/minio/minio/tree/master/helm/minio)
-
-git clone https://github.com/briansu2004/udemy-devops-14-real-projects.git
-cd udemy-devops-14-real-projects/012-CronjobVaultBackupHelmMinikube
--->
-
-<!--
-Initial Root Token: hvs.5vozFxJg1ZTLv39r8Y8LnlBd
-
-/tmp $ echo Role_ID is $ROLE_ID
-Role_ID is a813c0c9-b485-c546-6764-ce34603cd8d6
-/tmp $
-/tmp $ echo SECRET_ID is $SECRET_ID
-SECRET_ID is a131ca8c-b72c-bd87-ca65-e2e0ed689ed7
-
-kubectl -n vault-test port-forward svc/vault 8200:8200
-
-http://localhost:8200
--->
-
-<!--
-Minio service name is minio-1681526507
-
-Unseal Key 1: LnnYzJ1CfL528g0x8uGh7iP7kXNIcV/4i8SMxFwR/znN
-Unseal Key 2: A3KtnJ+82H6yKWWN6FRe2mUWkQBE39DquAOsFBYIXTsa
-Unseal Key 3: 92fAm1M2TcuQf1w3lwXiaP/Do9j7fj1cK//jLs3Hlz8v
-Unseal Key 4: +eKioNOpB5Nqc4E6P4/vVXnnIZ3EMGtY0ODCektEfIGb
-Unseal Key 5: wmWWXGtmrDEcfmQYW+62AIfDXe3pEgxW4kE+Qnvdz9Lv
-
-Initial Root Token: hvs.yHwL13u8pCy7oxIfrKvTyNtM
-
-Role_ID is cc96ed8c-e5e4-a055-bee4-5a6c59840e73
-SECRET_ID is 559c94a4-4374-7fc1-c6cf-3b22912db51d
-
-helm -n vault-test uninstall vault-backup
-
-kubectl describe job vault-backup-test
-
-kubectl describe pod vault-backup-test-c6blm
-
-kubectl describe configmap upload
-
-kubectl delete job vault-backup-test
-
-helm uninstall vault-backup 
-
-kubectl delete configmap upload
-
-kubectl create job --from=cronjob/vault-backup-cronjob manual-backup-$(date +'%s') 
--->
+![1681673754295](image/01_Y_WindowsOnly/1681673754295.png)

@@ -100,7 +100,6 @@ kubectl -n vault-test exec vault-0 -- vault operator unseal lGAQpNm2q4PlQCPDDKpA
 
 kubectl -n vault-test exec vault-0 -- vault login hvs.bUFbrx9qiACLK4U25lBQGvNA
 
-
 /tmp $ export ROLE_ID="$(vault read -field=role_id auth/approle/role/first-role/role-id)"
 /tmp $
 /tmp $ echo Role_ID is $ROLE_ID
@@ -111,5 +110,6 @@ Role_ID is 0f9b2e63-595c-8de5-85a7-ee5dcc64a1eb
 /tmp $ echo SECRET_ID is $SECRET_ID
 SECRET_ID is c8919222-5751-3324-75fd-bb13d921f7cf
 
-
+https://play.min.io
+https://play.min.io:9443/browser/briansutest
 -->
