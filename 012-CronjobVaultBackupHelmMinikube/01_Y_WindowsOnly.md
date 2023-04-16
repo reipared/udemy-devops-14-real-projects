@@ -64,21 +64,6 @@ kubectl config set-context --current --namespace=minio
 
 Since we are using Minikube cluster which has only 1 node, we just deploy the Minio in a test mode.
 
-<!--
-helm search repo minio/minio -l
-
-minio/minio     5.0.8           RELEASE.2023-04-13T03-08-07Z    Multi-Cloud Object Storage
-minio/minio     5.0.7           RELEASE.2023-02-10T18-48-39Z    Multi-Cloud Object Storage
-minio/minio     5.0.6           RELEASE.2023-02-10T18-48-39Z    Multi-Cloud Object Storage
-minio/minio     5.0.5           RELEASE.2023-01-31T02-24-19Z    Multi-Cloud Object Storage
-minio/minio     5.0.4           RELEASE.2022-12-12T19-27-27Z    Multi-Cloud Object Storage
-minio/minio     5.0.3           RELEASE.2022-12-12T19-27-27Z    Multi-Cloud Object Storage
-minio/minio     5.0.2           RELEASE.2022-12-12T19-27-27Z    Multi-Cloud Object Storage
-minio/minio     5.0.1           RELEASE.2022-11-11T03-44-20Z    Multi-Cloud Object Storage
-minio/minio     5.0.0           RELEASE.2022-10-24T18-35-07Z    Multi-Cloud Object Storage
-
--->
-
 ```dos
 helm install --set resources.requests.memory=512Mi --set replicas=1 --set mode=standalone --set rootUser=rootuser,rootPassword=rootpass123 --generate-name --namespace=minio minio/minio --version 5.0.5
 ```
@@ -198,12 +183,6 @@ echo SECRET_ID is $SECRET_ID
 ```
 
 Update the `VAULT_APPROLE_ROLE_ID` and `VAULT_APPROLE_SECRET_ID` variables in the `vault-backup-values.yaml` file.
-
-<!-- 
-### 8. Allow minio namespace to access valut-test namespace
-
-`kubectl apply -f network-policy.yaml` 
--->
 
 ### 8. Deploy the configmap
 
