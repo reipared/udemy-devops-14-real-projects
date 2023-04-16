@@ -114,3 +114,16 @@ kubectl logs -f $(kubectl get pod -l app=vault-backup -o jsonpath="{.items[0].me
 kubectl get cronjob
 kubectl describe cronjob vault-backup-cronjob 
 -->
+
+<!--
+#/bin/sh
+#mc alias set local-minio http://$MINIO_ADDR:9000 $MINIO_USERNAME $MINIO_PASSWORD
+#mc cp --recursive /tmp/* local-minio/$BUCKET_NAME
+#mc cp --recursive /* local-minio/$BUCKET_NAME
+mc cp --recursive /backup/* local-minio/$BUCKET_NAME
+
+PS C:\devbox\udemy-devops-14-real-projects\012-CronjobVaultBackupHelmMinikube> kubectl logs vault-backup-test-qm2km
+Defaulted container "upload" out of: upload, vault-backup (init)
+`/backup/vault-backup-202304160057.json` -> `local-minio/test/vault-backup-202304160057.json`
+Total: 0 B, Transferred: 416 B, Speed: 25.35 KiB/s
+-->
