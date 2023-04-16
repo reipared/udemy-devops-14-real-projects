@@ -78,6 +78,7 @@ kubectl -n vault-test exec vault-0 -- vault operator unseal qKH/AyhxmKiAD7QYakrZ
 
 kubectl -n vault-test exec vault-0 -- vault login hvs.4tq0M4fES5a1bUKJl3XgCUaO
 
+
 /tmp $ export ROLE_ID="$(vault read -field=role_id auth/approle/role/first-role/role-id)"
 /tmp $ echo Role_ID is $ROLE_ID
 Role_ID is b4eb088f-5350-8225-282e-c1a235c161fc

@@ -13,7 +13,7 @@ env:
   #CONSUL_HTTP_ADDR: 'http://consul-server.vault-test:8500'
   #CONSUL_CACERT: '/var/run/secrets/kubernetes.io/serviceaccount/ca.crt'
   VAULT_APPROLE_ROLE_ID: 'b4eb088f-5350-8225-282e-c1a235c161fc'
-  VAULT_APPROLE_SECRET_ID: '63787483-f0ed-433c-3b54-05d9841558a1'
+  VAULT_APPROLE_SECRET_ID: '5cad5ed2-2182-4642-05b4-4ec458793c1e'
   MOUNT_POINT: 'kv-v2'
   SECRET_PATH: 'devops-secret'
   BUCKET_NAME: 'test'
