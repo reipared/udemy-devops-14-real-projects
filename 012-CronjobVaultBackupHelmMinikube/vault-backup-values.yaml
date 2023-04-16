@@ -1,8 +1,8 @@
 # helm -n vault upgrade --install vault-backup helm-chart -f values.yaml
 cronjob:
   # schedule: 0 2 * * 6
-  # schedule: 0,5,10,15,20,25,30,35,40,45,50,55 * * * *
-  schedule: /1 * * * *
+  # schedule: /1 * * * *  # doesn't work
+  schedule: 0,5,10,15,20,25,30,35,40,45,50,55 * * * *
   # imageUpload: minio/mc:RELEASE.2023-03-23T20-03-04Z
   imageUpload: minio/mc
   # imageUpload: minio/mc:RELEASE.2022-12-12T19-27-27Z

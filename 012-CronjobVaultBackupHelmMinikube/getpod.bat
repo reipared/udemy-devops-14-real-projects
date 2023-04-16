@@ -1,0 +1,2 @@
+@cls
+kubectl get pod
