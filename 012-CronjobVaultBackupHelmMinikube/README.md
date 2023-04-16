@@ -86,6 +86,9 @@ Role_ID is b4eb088f-5350-8225-282e-c1a235c161fc
 /tmp $ echo SECRET_ID is $SECRET_ID
 SECRET_ID is 7dbd1f89-f1f5-59b0-dba9-49ffc3f05c19
 
+Role_ID is b4eb088f-5350-8225-282e-c1a235c161fc
+SECRET_ID is 63787483-f0ed-433c-3b54-05d9841558a1
+
 MINIO_SERVICE_NAME=$(kubectl get svc -n minio -o=jsonpath={.items[0].metadata.name})
 echo Minio service name is $MINIO_SERVICE_NAME
 

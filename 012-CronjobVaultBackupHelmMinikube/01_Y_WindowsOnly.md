@@ -113,11 +113,11 @@ helm install --set resources.requests.memory=512Mi --set replicas=1 --set mode=s
 Update the minio username and password in `vault-backup-values.yaml`
 
 ```bash
-MINIO_USERNAME=$(kubectl get secret -l app=minio -o=jsonpath="{.items[0].data.rootUser}"|base64 -d)
+MINIO_USERNAME=$(kubectl get secret -n minio -l app=minio -o=jsonpath="{.items[0].data.rootUser}"|base64 -d)
 
 echo "MINIO_USERNAME is $MINIO_USERNAME"
 
-MINIO_PASSWORD=$(kubectl get secret -l app=minio -o=jsonpath="{.items[0].data.rootPassword}"|base64 -d)
+MINIO_PASSWORD=$(kubectl get secret -n minio -l app=minio -o=jsonpath="{.items[0].data.rootPassword}"|base64 -d)
 
 echo "MINIO_PASSWORD is $MINIO_PASSWORD"
 ```
