@@ -162,4 +162,113 @@ Role_ID is be05a5d4-7658-3334-a57e-fa81ca5eefc4
 /tmp $ echo SECRET_ID is $SECRET_ID
 SECRET_ID is 8bd1c5d4-5dda-41f3-ac92-55f56a8e8033
 
+alias k="kubectl"
+
+devops@Brians-MBP 012-CronjobVaultBackupHelmMinikube % k logs -f vault-backup-test-hmbvq 
+Defaulted container "upload" out of: upload, vault-backup (init)
+total 4
+-rw-r--r-- 1 root root 418 Apr 16 13:54 vault-backup-202304161354.json
+`/backup/vault-backup-202304161354.json` -> `local-minio/test/vault-backup-202304161354.json`
+Total: 0 B, Transferred: 418 B, Speed: 39.55 KiB/s
+
+  Init Containers:
+   vault-backup:
+    Image:      hashicorp/vault:1.9.2
+    Port:       <none>
+    Host Port:  <none>
+    Command:
+      /bin/sh
+    Args:
+      -ec
+      apk update && apk add jq
+      export VAULT_TOKEN=$(vault write auth/approle/login role_id=$VAULT_APPROLE_ROLE_ID secret_id=$VAULT_APPROLE_SECRET_ID -format=json |jq -r .auth.client_token);
+      echo "vault kv get -format=json $MOUNT_POINT/$SECRET_PATH"
+      vault kv get -format=json $MOUNT_POINT/$SECRET_PATH > /backup/vault-backup-`date +%Y%m%d%H%M`.json
+
+kubectl apply -f network-policy.yaml
+
+mc alias ls
+
+gcs  
+  URL       : https://storage.googleapis.com
+  AccessKey : YOUR-ACCESS-KEY-HERE
+  SecretKey : YOUR-SECRET-KEY-HERE
+  API       : S3v2
+  Path      : dns
+local
+  URL       : http://localhost:9000
+  AccessKey : 
+  SecretKey : 
+  API       : 
+  Path      : auto
+play 
+  URL       : https://play.min.io
+  AccessKey : Q3AM3UQ867SPQQA43P2F
+  SecretKey : zuf+tfteSlswRu7BJ86wekitnifILbZam1KYY3TG
+  API       : S3v4
+  Path      : auto
+s3   
+  URL       : https://s3.amazonaws.com
+  AccessKey : YOUR-ACCESS-KEY-HERE
+  SecretKey : YOUR-SECRET-KEY-HERE
+  API       : S3v4
+  Path      : dns
+total 76
+
+devops@Brians-MBP 012-CronjobVaultBackupHelmMinikube % k get svc -n vault-test
+NAME                       TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)             AGE
+vault                      ClusterIP   10.105.115.231   <none>        8200/TCP,8201/TCP   57m
+vault-agent-injector-svc   ClusterIP   10.100.64.112    <none>        443/TCP             57m
+vault-internal             ClusterIP   None             <none>        8200/TCP,8201/TCP   57m
+
+devops@Brians-MBP 012-CronjobVaultBackupHelmMinikube % k get svc -n minio
+NAME                       TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)    AGE
+minio-1681651829           ClusterIP   10.102.37.217    <none>        9000/TCP   60m
+minio-1681651829-console   ClusterIP   10.109.112.146   <none>        9001/TCP   60m
+
+devops@Brians-MBP 012-CronjobVaultBackupHelmMinikube % k describe svc minio-1681651829  
+Name:              minio-1681651829
+Namespace:         minio
+Labels:            app=minio
+                   app.kubernetes.io/managed-by=Helm
+                   chart=minio-5.0.5
+                   heritage=Helm
+                   monitoring=true
+                   release=minio-1681651829
+Annotations:       meta.helm.sh/release-name: minio-1681651829
+                   meta.helm.sh/release-namespace: minio
+Selector:          app=minio,release=minio-1681651829
+Type:              ClusterIP
+IP Family Policy:  SingleStack
+IP Families:       IPv4
+IP:                10.102.37.217
+IPs:               10.102.37.217
+Port:              http  9000/TCP
+TargetPort:        9000/TCP
+Endpoints:         10.244.0.11:9000
+Session Affinity:  None
+Events:            <none>
+
+devops@Brians-MBP 012-CronjobVaultBackupHelmMinikube % k describe svc minio-1681651829-console
+Name:              minio-1681651829-console
+Namespace:         minio
+Labels:            app=minio
+                   app.kubernetes.io/managed-by=Helm
+                   chart=minio-5.0.5
+                   heritage=Helm
+                   release=minio-1681651829
+Annotations:       meta.helm.sh/release-name: minio-1681651829
+                   meta.helm.sh/release-namespace: minio
+Selector:          app=minio,release=minio-1681651829
+Type:              ClusterIP
+IP Family Policy:  SingleStack
+IP Families:       IPv4
+IP:                10.109.112.146
+IPs:               10.109.112.146
+Port:              http  9001/TCP
+TargetPort:        9001/TCP
+Endpoints:         10.244.0.11:9001
+Session Affinity:  None
+Events:            <none>
+
 -->

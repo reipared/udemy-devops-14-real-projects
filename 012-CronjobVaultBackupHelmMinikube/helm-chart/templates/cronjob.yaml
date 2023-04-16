@@ -18,8 +18,10 @@ spec:
               - |
                 apk update && apk add jq
                 export VAULT_TOKEN=$(vault write auth/approle/login role_id=$VAULT_APPROLE_ROLE_ID secret_id=$VAULT_APPROLE_SECRET_ID -format=json |jq -r .auth.client_token);
+                echo "VAULT_TOKEN is $VAULT_TOKEN" 
                 echo "vault kv get -format=json $MOUNT_POINT/$SECRET_PATH"
                 vault kv get -format=json $MOUNT_POINT/$SECRET_PATH > /backup/vault-backup-`date +%Y%m%d%H%M`.json
+                # cat "test" > /backup/test.txt
 
 
             env:

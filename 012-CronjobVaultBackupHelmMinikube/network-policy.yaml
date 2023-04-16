@@ -20,7 +20,7 @@ spec:
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
-  name: allow-vault-access
+  name: allow-minio-access
   namespace: minio
 spec:
   podSelector:
