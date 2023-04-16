@@ -110,7 +110,6 @@ kubectl logs vault-backup-test-
 
 kubectl logs -f $(kubectl get pod -l app=vault-backup -o jsonpath="{.items[0].metadata.name}")
 
-
 kubectl get cronjob
 kubectl describe cronjob vault-backup-cronjob 
 -->
@@ -126,4 +125,41 @@ PS C:\devbox\udemy-devops-14-real-projects\012-CronjobVaultBackupHelmMinikube> k
 Defaulted container "upload" out of: upload, vault-backup (init)
 `/backup/vault-backup-202304160057.json` -> `local-minio/test/vault-backup-202304160057.json`
 Total: 0 B, Transferred: 416 B, Speed: 25.35 KiB/s
+-->
+
+<!--
+Mac
+
+MINIO_SERVICE_NAME=$(kubectl get svc -n minio -o=jsonpath="{.items[1].metadata.name}")
+echo Minio service name is $MINIO_SERVICE_NAME
+
+MINIO_USERNAME=$(kubectl get secret -l app=minio -o=jsonpath="{.items[0].data.rootUser}"|base64 -d)
+echo "MINIO_USERNAME is $MINIO_USERNAME"
+
+MINIO_PASSWORD=$(kubectl get secret -l app=minio -o=jsonpath="{.items[0].data.rootPassword}"|base64 -d)
+echo "MINIO_PASSWORD is $MINIO_PASSWORD"
+
+Minio service name is minio--console
+
+Unseal Key 1: FomjwEf2zjH4GMBvEz3s9V1H1s/WFmpN1/NwqVUNI8QY
+Unseal Key 2: boBsU6JQRQq4/vkSYDW5p2S8xWJLr1agpz5BGNElFATJ
+Unseal Key 3: rYPAYlbwAkLDl6cyVviDAixCYrwBn4kIDh4490qjQALk
+Unseal Key 4: wtslNugnWG/Dc9k1pGk7jDDODWq4BKr9qEN3gzDln56v
+Unseal Key 5: dnJ1bZvyTZE5Li6x73vDMe/ESPqyRbX45GpAqgOSAjE8
+
+Initial Root Token: hvs.118u4Q77K9kxIFZWXaJ8Xzmv
+
+kubectl -n vault-test exec vault-0 -- vault operator unseal FomjwEf2zjH4GMBvEz3s9V1H1s/WFmpN1/NwqVUNI8QY
+kubectl -n vault-test exec vault-0 -- vault operator unseal boBsU6JQRQq4/vkSYDW5p2S8xWJLr1agpz5BGNElFATJ
+kubectl -n vault-test exec vault-0 -- vault operator unseal rYPAYlbwAkLDl6cyVviDAixCYrwBn4kIDh4490qjQALk
+
+kubectl -n vault-test exec vault-0 -- vault login hvs.118u4Q77K9kxIFZWXaJ8Xzmv
+
+/tmp $ export ROLE_ID="$(vault read -field=role_id auth/approle/role/first-role/role-id)"
+/tmp $ echo Role_ID is $ROLE_ID
+Role_ID is be05a5d4-7658-3334-a57e-fa81ca5eefc4
+/tmp $ export SECRET_ID="$(vault write -f -field=secret_id auth/approle/role/first-role/secret-id)"
+/tmp $ echo SECRET_ID is $SECRET_ID
+SECRET_ID is 8bd1c5d4-5dda-41f3-ac92-55f56a8e8033
+
 -->
