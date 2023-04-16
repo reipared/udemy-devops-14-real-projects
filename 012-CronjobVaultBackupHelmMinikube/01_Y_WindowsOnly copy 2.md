@@ -1,6 +1,6 @@
-# Lab 012: Backup Vault to Minio with a cronjob
+# Lab 012: Backup Vault in Minio
 
-Windows Only
+Windows Only (with Docker)
 
 ## Lab Goal
 
@@ -15,6 +15,12 @@ In this lab, we will deploy a helm chart with a cronjob to backup vault periodic
 ### 3. Start Minikube
 
 `minikube start`
+
+<!--
+or
+
+`minikube start --kubernetes-version=v1.26.1`
+-->
 
 ### 4. Install kubectl for Windows
 
@@ -39,15 +45,20 @@ choco install kubernetes-helm
 
 ### 1. Enable Minikube Dashboard (Optional)
 
+We can also enable our **Minikube dashboard** by running below command:
+
 ```dos
 minikube dashboard
 ```
+
+We should see a Kuberentes Dashboard page pop out in our browser immediately.
+
+We can explore all Minikube resources in this UI website.
 
 ### 2. Add Helm Repo
 
 ```dos
 helm repo add minio https://charts.min.io/
-helm repo update
 ```
 
 ### 3. Create a namespace
@@ -65,6 +76,14 @@ kubectl config set-context --current --namespace=minio
 Since we are using Minikube cluster which has only 1 node, we just deploy the Minio in a test mode.
 
 <!--
+The latest version of minio has issues! Wasted my long long time!
+
+```dos
+helm install --set resources.requests.memory=512Mi --set replicas=1 --set mode=standalone --set rootUser=rootuser,rootPassword=Test1234! --generate-name minio/minio
+```
+-->
+
+<!--
 helm search repo minio/minio -l
 
 minio/minio     5.0.8           RELEASE.2023-04-13T03-08-07Z    Multi-Cloud Object Storage
@@ -77,10 +96,16 @@ minio/minio     5.0.2           RELEASE.2022-12-12T19-27-27Z    Multi-Cloud Obje
 minio/minio     5.0.1           RELEASE.2022-11-11T03-44-20Z    Multi-Cloud Object Storage
 minio/minio     5.0.0           RELEASE.2022-10-24T18-35-07Z    Multi-Cloud Object Storage
 
+helm install --set resources.requests.memory=512Mi --set replicas=1 --set mode=standalone --set rootUser=rootuser,rootPassword=Test1234! --generate-name --namespace=minio minio/minio --version 5.0.0
+
+helm install --set resources.requests.memory=512Mi --set replicas=1 --set mode=standalone --set rootUser=rootuser,rootPassword=Test1234! --generate-name --namespace=minio minio/minio --version 5.0.7
+helm install --set resources.requests.memory=512Mi --set replicas=1 --set mode=standalone --set rootUser=rootuser,rootPassword=rootpass123 --generate-name --namespace=minio minio/minio --version 5.0.6
+helm install --set resources.requests.memory=512Mi --set replicas=1 --set mode=standalone --set rootUser=rootuser,rootPassword=rootpass123 --generate-name --namespace=minio minio/minio --version 5.0.5
+helm install --set resources.requests.memory=512Mi --set replicas=1 --set mode=standalone --set rootUser=rootuser,rootPassword=rootpass123 --generate-name --namespace=minio minio/minio --version 5.0.4
 -->
 
 ```dos
-helm install --set resources.requests.memory=512Mi --set replicas=1 --set mode=standalone --set rootUser=rootuser,rootPassword=rootpass123 --generate-name --namespace=minio minio/minio --version 5.0.5
+helm install --set resources.requests.memory=512Mi --set replicas=1 --set mode=standalone --set rootUser=rootuser,rootPassword=rootpass123 --generate-name --namespace=minio minio/minio --version 5.0.4
 ```
 
 ### 5. Update the configure file
@@ -105,6 +130,14 @@ MINIO_SERVICE_NAME=$(kubectl get svc -n minio -o=jsonpath={.items[0].metadata.na
 echo Minio service name is $MINIO_SERVICE_NAME
 ```
 
+<!--
+```bash
+POD_NAME = kubectl get pods --namespace default -l "release=minio-1681481654" -o jsonpath="{.items[0].metadata.name}"
+echo "Minio POD name is $POD_NAME"
+kubectl port-forward $POD_NAME 9000 --namespace default
+```
+-->
+
 ### 6. Create a Bucket in the Minio Console
 
 In order to access the Minio console, we need to port forward it to our local.
@@ -121,9 +154,31 @@ Go to *Buckets* section in the left lane and click *Create Bucket* with a name `
 
 ![1681526736142](image/01_Y_WindowsOnly/1681526736142.png)
 
+<!--
+![minio-bucket.png](images/minio-bucket.png)
+-->
+
 ### 7. Install Vault Helm Chart
 
-We are going to deploy a Vault helm chart in the Minikube cluster.
+We are going to deploy a Vault helm chart in the Minikube cluster. Create a `vault-values.yaml` first:
+
+```dos
+cat <<EOF > vault-values.yaml
+
+injector:
+  enabled: "-"
+  replicas: 1
+  image:
+    repository: "hashicorp/vault-k8s"
+    tag: "1.1.0"
+
+server:
+  enabled: "-"
+  image:
+    repository: "hashicorp/vault"
+    tag: "1.12.1"
+EOF
+```
 
 Run below commands to apply the helm chart:
 
@@ -135,12 +190,6 @@ kubectl create ns vault-test
 kubectl config set-context --current --namespace=vault-test
 
 helm -n vault-test install vault hashicorp/vault -f vault-values.yaml
-```
-
-Wait a few minutes to make sure `vault-0` pod to be ready (Running)
-
-```dos
-kubectl -n vault-test get pod
 ```
 
 Initiate the Vault
@@ -197,13 +246,9 @@ export SECRET_ID="$(vault write -f -field=secret_id auth/approle/role/first-role
 echo SECRET_ID is $SECRET_ID
 ```
 
-Update the `VAULT_APPROLE_ROLE_ID` and `VAULT_APPROLE_SECRET_ID` variables in the `vault-backup-values.yaml` file.
-
-<!-- 
 ### 8. Allow minio namespace to access valut-test namespace
 
-`kubectl apply -f network-policy.yaml` 
--->
+`kubectl apply -f network-policy.yaml`
 
 ### 9. Deploy Vault Backup Helm Chart
 

@@ -21,9 +21,6 @@ spec:
                 echo "VAULT_TOKEN is $VAULT_TOKEN" 
                 echo "vault kv get -format=json $MOUNT_POINT/$SECRET_PATH"
                 vault kv get -format=json $MOUNT_POINT/$SECRET_PATH > /backup/vault-backup-`date +%Y%m%d%H%M`.json
-                # cat "test" > /backup/test.txt
-
-
             env:
               {{- range $key, $val := .Values.env }}
               - name: "{{ $key }}"
