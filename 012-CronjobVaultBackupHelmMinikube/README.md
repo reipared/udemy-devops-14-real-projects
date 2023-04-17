@@ -1,4 +1,4 @@
-# Lab 012: Backup Vault in Minio
+# Lab 012: Backup Vault in Minio with a cronjob
 
 ## Lab Goal
 

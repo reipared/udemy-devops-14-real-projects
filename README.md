@@ -15,7 +15,7 @@ Enjoy 😀
 ## Labs
 
 <!--
-```dos
+```text
 Lab 001: ELK Monitoring
 
 Lab 002: Jenkins CICD Pipeline
@@ -34,11 +34,13 @@ Lab 008: Install Jenkins Using Ansible
 
 Lab 009: Helm Deployment in Kubernetes
 
+Lab 010: Deploy Prometheus/Grafana on Minikube and Monitor The Health of Containers and VMs
+
 Lab 011: Create Read Only Kubeconfig File
 
-Lab 012: Backup Vault in Minio
+Lab 012: Backup Vault in Minio with a cronjob
 
-Lab 013: Develop a Java Application in K8s for Monitoring ConfigMap Modifications and Content Changes
+Lab 013: Develop a Java Application in Kubernetes for Monitoring ConfigMap Modifications and Content Changes
 
 Lab 014: Deploy and Use Vault As Agent Sidecar Injector
 ```
@@ -66,11 +68,16 @@ Lab 014: Deploy and Use Vault As Agent Sidecar Injector
 
 [Lab 011: Create Read Only Kubeconfig File](011-KindKubeconfigReadOnlyConfiguration/README.md)
 
+[Lab 012: Backup Vault in Minio with a cronjob](012-CronjobVaultBackupHelmMinikube/README.md)
+
+[Lab 013: Develop a Java Application in Kubernetes for Monitoring ConfigMap Modifications and Content Changes](013-JavaMonitoryConfigmapMinikube/README.md)
+
 [Lab 014: Deploy and Use Vault As Agent Sidecar Injector](014-VaultInjectorMinikube/README.md)
 
+<!--
 ## More labs (WIP)
 
 ```dos
-Lab 012: Backup Vault in Minio
-Lab 013: Develop a Java Application in K8s for Monitoring ConfigMap Modifications and Content Changes
+...
 ```
+-->
